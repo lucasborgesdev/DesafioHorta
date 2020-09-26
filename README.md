@@ -24,3 +24,5 @@ O resultado que deve ser mostrado no final é uma STRING contendo os movimentos 
 ** A lógica para se percorrer o caminho é livre não necessariamente a utilizada neste exemplo, o importante é o resultado final - o robô não utiliza gasolina, nem energia, portanto o tamanho do caminho percorrido não é relevante.
 
 ** Plus: demonstrar o caminho e a irrigação realizados pelo robô na horta utilizando a string de resultado apresentada. Pode ser efetuado um movimento por segundo até o final do processo.
+
+https://raw.githubusercontent.com/lucasborgesdev/DesafioHorta/master/desafio1.jpg
