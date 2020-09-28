@@ -1,0 +1,10 @@
+{
+  "name": "Lucas",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "console-read-write": "^0.1.1",
+    "node": "^14.12.0"
+  }
+}
