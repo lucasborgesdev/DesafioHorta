@@ -1,8 +1,9 @@
-"strict";
+const Posicao = require("./Posicao.class.js");
 
-class Robo {
+const Robo = class Robo extends Posicao.posicao {
   constructor(posicao, direcao) {
-    this.posicao = posicao;
+    super(posicao, direcao);
+    this.posicao = new Posicao.posicao().constroi_atraves_string(posicao);
     this.direcao = direcao;
   }
 
@@ -67,6 +68,18 @@ class Robo {
       }
     }
   }
-}
 
-//module.exports = Robo;
+  caminhar_para(nova_posicao) {
+    console.log("Iniciou uma nova viagem!");
+    //let direcao_para = new Posicao.posicao().direcao_para(nova_posicao);
+    let proxima_acao = new Posicao.posicao().direcao_para(nova_posicao);
+    //let proxima_acao = this.posicao.direcao_para(nova_posicao);
+    console.log(proxima_acao);
+    this.virar_para(proxima_acao);
+    console.log("A posição deveria ser igual a nova_posicao!");
+    console.log(this.posicao);
+    console.log(nova_posicao);
+  }
+};
+
+module.exports = { Robo };
