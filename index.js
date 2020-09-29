@@ -38,8 +38,14 @@ const io = require("console-read-write");
 
 class Posicao {
   constructor(linha, coluna) {
-    this.l = linha;
-    this.c = coluna;
+    this.l = Number.parseInt(linha);
+    this.c = Number.parseInt(coluna);
+  }
+
+  static constroi_atraves_string(par_ordenado) {
+    let l = Number.parseInt(par_ordenado.match(/(\d+),/)[1]);
+    let c = Number.parseInt(par_ordenado.match(/,(\d+)/)[1]);
+    return new Posicao(l, c);
   }
 
   distancia(outra_posicao) {
@@ -76,7 +82,7 @@ class Posicao {
 
 class Robo {
   constructor(posicao, direcao) {
-    this.posicao = posicao;
+    this.posicao = Posicao.constroi_atraves_string(posicao);
     this.direcao = direcao;
   }
 
@@ -143,8 +149,13 @@ class Robo {
   }
 
   caminhar_para(nova_posicao) {
-    let tem_que_virar = this.posicao.direcao_para(nova_posicao);
-    this.virar_para(tem_que_virar);
+    console.log("Iniciou uma nova viagem!");
+    let proxima_acao = this.posicao.direcao_para(nova_posicao);
+    console.log(proxima_acao);
+    this.virar_para(proxima_acao);
+    console.log("A posição deveria ser igual a nova_posicao!");
+    console.log(this.posicao);
+    console.log(nova_posicao);
   }
 }
 
@@ -215,11 +226,12 @@ async function main() {
   var result;
   while ((result = regex_par_ordenado.exec(canteiros)) !== null) {
     // dado a posição atual do robo + direção, calcula a rota para proximo canteiro
-    let linha = result[0].match(/(\d+),/);
-    let coluna = result[0].match(/,(\d+)/);
+    let linha = result[0].match(/(\d+),/)[1];
+    let coluna = result[0].match(/,(\d+)/)[1];
 
     let pos = new Posicao(linha, coluna);
-    console.log(pos);
+    robo.caminhar_para(pos);
+    //console.log(pos);
   }
 
   /*function qt_canteiros(){
