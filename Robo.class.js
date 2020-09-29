@@ -1,4 +1,6 @@
-export default class Robo {
+"strict";
+
+class Robo {
   constructor(posicao, direcao) {
     this.posicao = posicao;
     this.direcao = direcao;
@@ -66,3 +68,5 @@ export default class Robo {
     }
   }
 }
+
+//module.exports = Robo;

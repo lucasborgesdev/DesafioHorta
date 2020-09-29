@@ -34,7 +34,7 @@ O resultado que deve ser mostrado no final é uma STRING contendo os movimentos 
 
 const io = require("console-read-write");
 
-//import Robo from "Robo.class.js";
+//const Robo = require("./Robo.class.js").default;
 
 class Posicao {
   constructor(linha, coluna) {
@@ -71,12 +71,82 @@ class Posicao {
       return "I";
     }
   }
-
-  test() {
-    console.log("eu funciono!");
-  }
 }
 //*/
+
+class Robo {
+  constructor(posicao, direcao) {
+    this.posicao = posicao;
+    this.direcao = direcao;
+  }
+
+  virar_para(nova_direcao) {
+    if (this.direcao == "S") {
+      if (nova_direcao == "S") {
+        return "";
+      }
+      if (nova_direcao == "O") {
+        return "D";
+      }
+      if (nova_direcao == "L") {
+        return "E";
+      }
+      if (nova_direcao == "N") {
+        return "EE"; // gira 180 graus, tanto faz a direção
+      }
+    }
+
+    if (this.direcao == "O") {
+      if (nova_direcao == "S") {
+        return "E";
+      }
+      if (nova_direcao == "O") {
+        return "";
+      }
+      if (nova_direcao == "L") {
+        return "EE"; // gira 180 graus, tanto faz a direção
+      }
+      if (nova_direcao == "N") {
+        return "D";
+      }
+    }
+
+    if (this.direcao == "L") {
+      if (nova_direcao == "S") {
+        return "D";
+      }
+      if (nova_direcao == "O") {
+        return "EE"; // gira 180 graus, tanto faz a direção
+      }
+      if (nova_direcao == "L") {
+        return "";
+      }
+      if (nova_direcao == "N") {
+        return "E";
+      }
+    }
+
+    if (this.direcao == "N") {
+      if (nova_direcao == "S") {
+        return "EE"; // gira 180 graus, tanto faz a direção
+      }
+      if (nova_direcao == "O") {
+        return "E";
+      }
+      if (nova_direcao == "L") {
+        return "D";
+      }
+      if (nova_direcao == "N") {
+        return "";
+      }
+    }
+  }
+
+  caminhar_para(nova_posicao) {
+    let tem_que_virar = this.posicao.direcao_para(nova_posicao);
+    this.virar_para(tem_que_virar);
+  }
+}
 
 async function main() {
   /* Disposição de 9 canteiros de exemplo.
@@ -85,23 +155,24 @@ async function main() {
         4|5|6
         1|2|3
     */
+  /*
   //                          L, C
   let canteiro1 = new Posicao(1, 1),
-    canteiro2 = new Posicao(1, 2),
-    canteiro3 = new Posicao(1, 3),
-    canteiro4 = new Posicao(2, 1),
-    canteiro5 = new Posicao(2, 2),
-    canteiro6 = new Posicao(2, 3),
-    canteiro7 = new Posicao(3, 1),
-    canteiro8 = new Posicao(3, 2),
-    canteiro9 = new Posicao(3, 3);
-  /*
+      canteiro2 = new Posicao(1, 2),
+      canteiro3 = new Posicao(1, 3),
+      canteiro4 = new Posicao(2, 1),
+      canteiro5 = new Posicao(2, 2),
+      canteiro6 = new Posicao(2, 3),
+      canteiro7 = new Posicao(3, 1),
+      canteiro8 = new Posicao(3, 2),
+      canteiro9 = new Posicao(3, 3);
+
   let robo = new Robo(canteiro5, "N");
   console.log(robo);
 */
   //console.log(canteiro1.direcao_proximo_par(canteiro2));
 
-  //*
+  /* era só pra testar. funciona
   console.log(canteiro5.distancia(canteiro1));
   console.log(canteiro5.distancia(canteiro2));
   console.log(canteiro5.distancia(canteiro3));
@@ -113,7 +184,7 @@ async function main() {
   console.log(canteiro5.distancia(canteiro7));
   console.log(canteiro5.distancia(canteiro8));
   console.log(canteiro5.distancia(canteiro9));
-  //*/
+
   //-------------------------------------------------
 
   console.log(canteiro5.direcao_para(canteiro1));
@@ -127,11 +198,17 @@ async function main() {
   console.log(canteiro5.direcao_para(canteiro7));
   console.log(canteiro5.direcao_para(canteiro8));
   console.log(canteiro5.direcao_para(canteiro9));
-
+  //*/
   // Simple readline scenari
 
   let posicao_inicial = `${await io.ask("Posição inicial    : ")}`; // (3,2)
+  //console.log("a posicao inicial é: ", posicao_inicial);
   let direcao = `${await io.ask("Orientação inicial : ")}`; // N
+  //console.log("a direcao é: ", direcao);
+
+  let robo = new Robo(posicao_inicial, direcao);
+  console.log(robo);
+
   let canteiros = `${await io.ask("Canteiros a irrigar : ")}`; // (4,1) (4,5) (3,4)
 
   var regex_par_ordenado = /\([^)]+\)/g;
@@ -144,27 +221,6 @@ async function main() {
     let pos = new Posicao(linha, coluna);
     console.log(pos);
   }
-
-  //console.log();
-
-  //canteiros.match(regex_par_ordenado)
-  //console.log(qt_canteiros);
-  //io.write(`hello ${await io.ask('Who are you?')}!`);
-
-  /*
-    let valor_x = `${await io.ask('Posição o valor de X    : ')}`; // |----|
-    let valor_y = `${await io.ask('Posição o valor de Y    : ')}`; // I
-    */
-
-  /*let Par_ordenado(linha,coluna) = {
-       linha: x,
-       colina: y
-   }
-
-   let constructor = {
-       Par
-   }
-    */
 
   /*function qt_canteiros(){
         let valor = `${await io.ask('Digite quantos canteiros voce vai cadastrar')}`;
